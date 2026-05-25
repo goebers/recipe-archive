@@ -1,0 +1,31 @@
+title: "Roba's Recipe Archive"
+email: ""
+description: "Helpot herkku reseptit säilössä"
+url: "https://goebers.github.io"
+baseurl: "/recipe-archive"
+
+exclude:
+  - README.md
+
+defaults:
+  - scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "recipe"
+      permalink: /:slug/
+
+minima:
+  date_format: "%-d.%-m.%Y"
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+
+sass:
+  quiet_deps: true
+  silence_deprecations:
+    - import
+    - global-builtin
+    - color-functions

@@ -1,0 +1,26 @@
+<dl class="recipe-meta">
+  {%- if page.prep_time -%}
+    <div class="recipe-meta-item">
+      <dt>Valmistusaika</dt>
+      <dd>{{ page.prep_time }}</dd>
+    </div>
+  {%- endif -%}
+  {%- if page.cook_time -%}
+    <div class="recipe-meta-item">
+      <dt>Kypsennysaika</dt>
+      <dd>{{ page.cook_time }}</dd>
+    </div>
+  {%- endif -%}
+  {%- if page.servings -%}
+    <div class="recipe-meta-item">
+      <dt>Annosta</dt>
+      <dd>{{ page.servings }}</dd>
+    </div>
+  {%- endif -%}
+  {%- if page.categories and page.categories.size > 0 -%}
+    <div class="recipe-meta-item">
+      <dt>Kategoria</dt>
+      <dd>{{ page.categories | join: ", " }}</dd>
+    </div>
+  {%- endif -%}
+</dl>

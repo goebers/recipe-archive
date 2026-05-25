@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if site.posts.size > 0 -%}
+    <ul class="recipe-list">
+      {%- for post in site.posts -%}
+        <li>
+          <a class="recipe-list-link" href="{{ post.url | relative_url }}">
+            <span class="recipe-list-title">{{ post.title | escape }}</span>
+            {%- if post.excerpt -%}
+              <span class="recipe-list-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</span>
+            {%- endif -%}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- else -%}
+    <p class="recipe-list-empty">No recipes yet.</p>
+  {%- endif -%}
+</div>

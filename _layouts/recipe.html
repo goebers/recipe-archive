@@ -1,0 +1,9 @@
+---
+layout: post
+---
+
+{%- if page.prep_time or page.cook_time or page.servings or page.categories -%}
+  {%- include recipe-meta.html -%}
+{%- endif -%}
+
+{{ content }}
