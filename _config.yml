@@ -6,6 +6,8 @@ baseurl: "/recipe-archive"
 
 exclude:
   - README.md
+  - _config_dev.yml
+  - YYYY-MM-DD-slug.markdown
 
 defaults:
   - scope:

@@ -1,124 +1,57 @@
 # Recipe Archive
 
-A static recipe archive built with [Jekyll](https://jekyllrb.com/). Recipes are Markdown files in `_posts`, with prep time, cook time, servings, and categories in the front matter.
+A static recipe site built with [Jekyll](https://jekyllrb.com/). Each recipe is a Markdown file in `_posts/`.
 
-## Requirements
+## Setup
 
-Before you begin, install the [Jekyll prerequisites](https://jekyllrb.com/docs/installation/#requirements):
-
-- **Ruby** 2.7.0 or higher (including development headers). Check with `ruby -v`.
-- **RubyGems**. Check with `gem -v`.
-- **GCC and Make**. Check with `gcc -v`, `g++ -v`, and `make -v`.
-
-OS-specific setup guides (macOS, Ubuntu, Windows, and others) are linked from the [installation docs](https://jekyllrb.com/docs/installation/#requirements).
-
-## Quickstart
-
-These steps follow the [Jekyll quickstart](https://jekyllrb.com/docs/), adapted for this existing project.
-
-1. **Install prerequisites** (see above).
-
-2. **Clone or download** this repository and change into the project directory:
-
-   ```bash
-   cd recipe-archive
-   ```
-
-3. **Install dependencies** with Bundler:
-
-   ```bash
-   bundle install
-   ```
-
-4. **Serve the site locally**:
-
-   ```bash
-   bundle exec jekyll serve
-   ```
-
-5. **Open** [http://localhost:4000](http://localhost:4000) in your browser.
-
-Optional flags:
-
-- **Live reload** — refresh the browser when you edit files:
-
-  ```bash
-  bundle exec jekyll serve --livereload
-  ```
-
-- **Production build** — generate static files into `_site/`:
-
-  ```bash
-  bundle exec jekyll build
-  ```
-
-### Ruby 3.0+
-
-If `bundle exec jekyll serve` fails on Ruby 3.0 or newer, add the `webrick` gem:
+Requires [Ruby, RubyGems, and GCC/Make](https://jekyllrb.com/docs/installation/#requirements). Then:
 
 ```bash
-bundle add webrick
+bundle install
 ```
 
-Then run `bundle exec jekyll serve` again. See the [quickstart notes](https://jekyllrb.com/docs/) for details.
+> On Ruby 3.0+, if serving fails with a `webrick` error, run `bundle add webrick` once.
 
-## Adding recipes
+## Develop
 
-Create a file in `_posts` named `YEAR-MONTH-DAY-slug.markdown` (for example, `2026-05-25-sourdough-bread.markdown`):
+Serve locally at [http://localhost:4000](http://localhost:4000)
 
-```yaml
----
-title: "Your Recipe Name"
-date: 2026-05-25
-categories: main dinner
-prep_time: 15 min
-cook_time: 30 min
-servings: 4
----
-
-## Ingredients
-
-- ...
-
-## Instructions
-
-1. ...
+```bash
+bundle exec rake serve
 ```
 
-The `recipe` layout is applied automatically to all posts. Restart `jekyll serve` if you change `_config.yml`.
+That runs Jekyll with livereload and `_config_dev.yml`, which clears `baseurl` so you don't need `/recipe-archive/` in the URL while developing. Production builds still use `_config.yml` (GitHub Pages paths).
+
+Other tasks: `bundle exec rake build` (static output to `_site/`).
+
+## Add a recipe
+
+Copy `YYYY-MM-DD-slug.markdown` at the repo root to `_posts/`, rename with a real date and slug, and edit. Restart the server after editing `_config.yml`.
+
+## Update dependencies
+
+Gem versions are pinned in `Gemfile` and locked in `Gemfile.lock`.
+
+```bash
+bundle update            # update all gems within Gemfile constraints
+bundle update jekyll     # update a single gem
+bundle outdated          # list gems with newer versions available
+```
+
+To move to a new major Jekyll version, bump the constraint in `Gemfile` (e.g. `gem "jekyll", "~> 4.5"`) then run `bundle update jekyll`. Commit the updated `Gemfile.lock`.
+
+## Deploy (GitHub Pages)
+
+Pushing to `master` triggers `.github/workflows/pages.yml`, which builds and deploys to `https://goebers.github.io/recipe-archive/`.
+
+One-time: **Settings → Pages → Build and deployment → Source → GitHub Actions**. If the repo name isn't `recipe-archive`, update `url` and `baseurl` in `_config.yml` to match.
 
 ## Project layout
 
-| Path | Purpose |
-|------|---------|
-| `_posts/` | Recipe Markdown files |
-| `_layouts/` | Page layouts (`recipe`, `home`) |
-| `_includes/` | Reusable fragments (e.g. recipe metadata) |
-| `_config.yml` | Site title, description, defaults |
-| `assets/` | Stylesheets |
-| `index.markdown` | Home page |
-
-## GitHub Pages
-
-This repo is set up as a [GitHub Pages project site](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites).
-
-1. Push to GitHub (repository name `recipe-archive` → site at `https://goebers.github.io/recipe-archive/`).
-2. In the repo: **Settings → Pages → Build and deployment → Source**: choose **GitHub Actions**.
-3. Push to `master`; the workflow in `.github/workflows/pages.yml` builds and deploys `_site`.
-
-`url` and `baseurl` in `_config.yml` must match your GitHub username and repo name. If the repo name differs, update `baseurl` (e.g. `/my-repo-name`).
-
-For local preview with the same paths as production:
-
-```bash
-bundle exec jekyll serve --baseurl /recipe-archive
-```
-
-Then open [http://localhost:4000/recipe-archive/](http://localhost:4000/recipe-archive/).
-
-## Learn more
-
-- [Jekyll documentation](https://jekyllrb.com/docs/)
-- [Installation](https://jekyllrb.com/docs/installation/)
-- [Posts](https://jekyllrb.com/docs/posts/)
-- [Front matter](https://jekyllrb.com/docs/front-matter/)
+| Path                      | Purpose                                              |
+| ------------------------- | ---------------------------------------------------- |
+| `_posts/`                 | Published recipes                                    |
+| `YYYY-MM-DD-slug.markdown`| Recipe template (excluded from the site build)         |
+| `_layouts/`, `_includes/` | Templates and fragments                              |
+| `assets/`                 | Styles (`main.scss`) and scripts                     |
+| `_config.yml`             | Site config (`_config_dev.yml` overrides it locally) |
