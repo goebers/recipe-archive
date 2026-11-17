@@ -16,6 +16,18 @@ $radius-md: $space-2;
 $border-width: 1px;
 $duration-fast: 150ms;
 
+@mixin hover-surface($unless: null) {
+  @if $unless {
+    &:hover:not(#{$unless}) {
+      background-color: $soft-grey;
+    }
+  } @else {
+    &:hover {
+      background-color: $soft-grey;
+    }
+  }
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
 $base-font-family: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -25,6 +37,15 @@ $spacing-unit: 32px; // 4 × 8px — aligns Minima wrapper/footer with scale
 $content-width: 1000px; // 125 × 8px
 
 @import "minima";
+
+/* $grey-color-light comes from the Minima theme. */
+$soft-grey: mix(#fff, $grey-color-light, 55%);
+
+/* Minima sets .page-content padding to $spacing-unit (32px). */
+.page-content {
+  padding-top: $space-3;
+  padding-bottom: $space-3;
+}
 
 @include media-query($on-laptop) {
   .wrapper {
@@ -64,7 +85,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: $space-3 $space-5;
   margin: 0 0 $space-4;
   padding: $space-4 $space-5;
-  background: $grey-color-light;
+  background: $soft-grey;
   border-radius: $radius-sm;
   @include relative-font-size(1);
 }
@@ -100,7 +121,7 @@ h1, h2, h3, h4, h5, h6 {
   h2 {
     margin-top: $space-5;
     @include relative-font-size(1.35);
-    border-bottom: $border-width solid $grey-color-light;
+    border-bottom: $border-width solid $soft-grey;
     padding-bottom: $space-2;
   }
 
@@ -132,9 +153,7 @@ h1, h2, h3, h4, h5, h6 {
       transition: color $duration-fast ease, opacity $duration-fast ease;
     }
 
-    &:hover:not(.is-done) {
-      background: $grey-color-light;
-    }
+    @include hover-surface(".is-done");
 
     &.is-done {
       color: $grey-color;
@@ -155,6 +174,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -162,18 +184,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .recipe-list li {
   margin: 0;
-  border-bottom: $border-width solid $grey-color-light;
-
-  &:last-child {
-    border-bottom: none;
-  }
 }
 
 .recipe-list-link {
   display: block;
-  padding: $space-4 0;
+  margin: 0 (-$space-3);
+  padding: $space-3;
+  border-radius: $radius-sm;
   color: inherit;
   text-decoration: none;
+  transition: background-color $duration-fast ease;
+  @include hover-surface;
 
   &:link,
   &:visited {
@@ -214,7 +235,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .site-footer {
-  border-top: $border-width solid $grey-color-light;
+  border-top: $border-width solid $soft-grey;
   padding: $space-4 0;
   margin-top: $space-5;
 }
